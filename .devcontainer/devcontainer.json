@@ -1,0 +1,39 @@
+{
+    "name": "ROS2 ADC Workshop",
+    "dockerComposeFile": "../compose.yaml",
+    "service": "ros2",
+    "workspaceFolder": "/adc_workshop_ws",
+
+    "remoteEnv": {
+        "ARCH": "${localEnv:ARCH:amd64}"
+    },
+
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-vscode.cpptools",
+                "yzhang.markdown-all-in-one",
+                "shd101wyy.markdown-preview-enhanced",
+                "Ranch-Hand-Robotics.rde-ros-2"
+            ],
+            "settings": {
+                "terminal.integrated.defaultProfile.linux": "ros2-bash",
+                "terminal.integrated.profiles.linux": {
+                    "ros2-bash": {
+                        "path": "/ros_entrypoint.sh",
+                        "args": ["bash"]
+                    }
+                },
+                "ros.distro": "humble",
+                "python.defaultInterpreterPath": "/usr/bin/python3"
+            }
+        }
+    },
+
+    "postStartCommand": "grep -q 'adc_workshop_ws' /ros_entrypoint.sh || sed -i '/source.*setup.bash/a [ -f /adc_workshop_ws/install/setup.bash ] && source /adc_workshop_ws/install/setup.bash' /ros_entrypoint.sh",
+
+    "runArgs": [
+        "--privileged"
+    ]
+}

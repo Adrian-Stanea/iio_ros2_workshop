@@ -1,0 +1,38 @@
+# ADI ROS2 Training - Docker Compose
+# ===================================
+#
+# For devcontainer (VS Code):
+#   Open folder in VS Code → "Reopen in Container"
+#
+# Manual usage:
+#   xhost +local:docker
+#   export ARCH=$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/')
+#   docker compose up -d
+#   docker compose exec ros2 /ros_entrypoint.sh bash
+#   docker compose down
+
+name: adi-ros2-training
+
+services:
+  ros2:
+    image: astanea/adi_ros2:humble-${ARCH:-amd64}-desktop
+    container_name: adi_ros2_training
+    hostname: adi-ros2-training
+    stdin_open: true
+    tty: true
+    privileged: true
+    network_mode: host
+    ipc: host
+    environment:
+      - DISPLAY=${DISPLAY:-:0}
+      - QT_X11_NO_MITSHM=1
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-0}
+      - XAUTHORITY=/tmp/.Xauthority
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ${XAUTHORITY:-$HOME/.Xauthority}:/tmp/.Xauthority:ro
+      - .:/adc_workshop_ws/src:cached
+    working_dir: /adc_workshop_ws
+    devices:
+      - /dev/bus/usb:/dev/bus/usb
+    command: sleep infinity

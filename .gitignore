@@ -1,0 +1,18 @@
+# Docker Compose environment (auto-generated, contains local settings)
+.env
+
+# Workspace directory (mounted into container)
+workspace/
+
+# Generated PDFs (can be rebuilt)
+*.pdf
+
+# mermaid-filter temporary files
+mermaid-filter.err
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
